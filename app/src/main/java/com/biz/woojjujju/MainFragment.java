@@ -1,14 +1,17 @@
 package com.biz.woojjujju;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.biz.woojjujju.helper.GoDataViewAdapter;
 import com.biz.woojjujju.models.GoDataListVO;
@@ -29,6 +32,8 @@ import java.util.concurrent.ExecutionException;
 public class MainFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    static String MENU_ID = "menu_id";
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -38,11 +43,20 @@ public class MainFragment extends Fragment {
     RecyclerView recyclerView ;
 
 
+    int menu_id ;
+
+    TextView txtButton;
 
     private OnFragmentInteractionListener mListener;
 
     public MainFragment() {
         // Required empty public constructor
+    }
+
+    @SuppressLint("ValidFragment")
+    public MainFragment(int menu_id)
+    {
+        this.menu_id = menu_id;
     }
 
     /**
@@ -54,11 +68,12 @@ public class MainFragment extends Fragment {
      * @return A new instance of fragment MainFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MainFragment newInstance(String param1, String param2) {
+    public static MainFragment newInstance(String param1, String param2, int menu_id) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putInt(MENU_ID,menu_id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,6 +84,8 @@ public class MainFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            menu_id = getArguments().getInt(MENU_ID);
+            Log.d("MF Menu_ID",":" + menu_id);
         }
     }
 
@@ -80,11 +97,13 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         recyclerView = view.findViewById(R.id.txt_list1) ; //recyclerView.findViewById(R.id.txt_list1);
+        txtButton = view.findViewById(R.id.txt_button);
         // 데이터 가져오기
         GoDataGetterService goDataGetterService = new GoDataGetterService();
         try {
+            Log.d("menu_id",":"+menu_id);
             List<GoDataListVO> goDataLists
-                    = (List<GoDataListVO>)goDataGetterService.execute(100).get(); // 지금부터 task 를 작동하라
+                    = (List<GoDataListVO>)goDataGetterService.execute(String.valueOf(menu_id),"TEST").get(); // 지금부터 task 를 작동하라
 
             GoDataViewAdapter adapter = new GoDataViewAdapter(goDataLists);
             recyclerView.setAdapter(adapter);
@@ -111,6 +130,7 @@ public class MainFragment extends Fragment {
                 return false;
             }
         });
+
         return view ;
     }
 

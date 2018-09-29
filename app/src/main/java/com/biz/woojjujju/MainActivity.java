@@ -1,14 +1,14 @@
 package com.biz.woojjujju;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.biz.woojjujju.service.WooDao;
+import java.util.ArrayList;
+
+import static com.biz.woojjujju.helper.GoDataViewAdapter.getListVO;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,8 +17,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView img_kid ;
     ImageView img_search ;
 
-    ViewPager vp ;
-    WooDao wooDao ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +32,12 @@ public class MainActivity extends AppCompatActivity {
         img_preg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent prgIntent = new Intent(MainActivity.this,Main2Activity.class);
 
-            prgIntent.putExtra("FragName","preg");
+//            Intent prgIntent = new Intent(MainActivity.this,Main2Activity.class);
+            Intent prgIntent = new Intent(MainActivity.this,SearchActivity.class);
+//            prgIntent.putExtra("FragName","preg");
+            prgIntent.putExtra("MENU_ID",v.getId());
+            getListVO = new ArrayList<>();
             startActivity(prgIntent);
 
             }
@@ -44,20 +45,23 @@ public class MainActivity extends AppCompatActivity {
         img_baby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent prgIntent = new Intent(MainActivity.this,Main2Activity.class);
+            Intent prgIntent = new Intent(MainActivity.this,SearchActivity.class);
 
-                prgIntent.putExtra("FragName","baby");
-                startActivity(prgIntent);
+//            prgIntent.putExtra("FragName","baby");
+            prgIntent.putExtra("MENU_ID",v.getId());
+            getListVO = new ArrayList<>();
+            startActivity(prgIntent);
 
             }
         });
         img_kid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent prgIntent = new Intent(MainActivity.this,Main2Activity.class);
-
-                prgIntent.putExtra("FragName","kid");
-                startActivity(prgIntent);
+            Intent prgIntent = new Intent(MainActivity.this,SearchActivity.class);
+//            prgIntent.putExtra("FragName","kid");
+            prgIntent.putExtra("MENU_ID",v.getId());
+            getListVO = new ArrayList<>();
+            startActivity(prgIntent);
 
 
             }
@@ -65,10 +69,11 @@ public class MainActivity extends AppCompatActivity {
         img_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent prgIntent = new Intent(MainActivity.this,SearchActivity.class);
-
-                prgIntent.putExtra("FragName","search");
-                startActivity(prgIntent);
+            Intent prgIntent = new Intent(MainActivity.this,SearchActivity.class);
+//            prgIntent.putExtra("FragName","search");
+            prgIntent.putExtra("MENU_ID",v.getId());
+            getListVO = new ArrayList<>();
+            startActivity(prgIntent);
 
 
             }
